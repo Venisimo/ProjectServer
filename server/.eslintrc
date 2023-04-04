@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "quotes": ["error", "double"],
+    "indent": ["warn", 2],
+    "semi": "error"
+  }
+  "parserOptions": {
+    "ecmaVersion": "latest"
+},
+  "env": {
+      "es6": true
+} 
+}
