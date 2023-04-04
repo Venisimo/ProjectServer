@@ -27,7 +27,7 @@ function App() {
       <div className="avatar">
         {
           avatar 
-            ? <img src={`${avatar}`} className="logo" alt="avatar" />
+            ? <img src={avatar} className="logo" alt="avatar" />
             : <img src={`${logo}`} className="logo" alt="avatar" />
           }
         
