@@ -7,12 +7,18 @@ const sharp = require('sharp')
 router.post('/upload', fileMiddleware.single('avatar'), (req, res) => {
     try {
         if (req.file) {
+            let type = req.file.filename.split('.').pop()
+            let file = req.file.filename;
+            let s = file.slice(0, -(type.length));
+            type = 'webp';
+            newFile = s + type;
+            sharp(req.file.path)
+            .rotate()
+            .toFormat('webp')
+            .toFile(req.file.destination + newFile)
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
             res.json(req.file);
-            // let type = req.file.filename.split('.').pop()
-            // let file = req.file.filename;
-            // let s = file.slice(0, -(type.length));
-            // type = 'webp';
-            // newFile = s + type;
             async function func(req, res) {
                 console.log(req.file.filename)
                 const toDb = await db.query(`INSERT INTO photos (path) values ($1)`, [req.file.filename])
