@@ -19,11 +19,20 @@ router.post('/upload', fileMiddleware.single('avatar'), async (req, res) => {
             await fs.promises.writeFile(webpPath, webpBuffer);
             await fs.promises.unlink(req.file.path);
             res.type('image/webp');
-            //res.send(???) //doesn't work
+            res.send({
+                fieldname: req.file.fieldname,
+                originalname: req.file.originalname,
+                encoding: req.file.encoding,
+                mimetype: 'image/webp',
+                destination: req.file.destination,
+                filename: `${req.file.filename}.webp`,
+                path: webpPath,
+                size: webpBuffer.length,
+            })
             async function func(req, res) {
-                console.log(req.file.filename)
+                console.log(req.file.newFile)
                 const toDb = await db.query(`INSERT INTO photos (path) values ($1)`, [newFile])
-                res.json(toDb.filename);
+                res.json(toDb.newFile);
             }
             func(req, res);
         }
