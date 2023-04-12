@@ -3,25 +3,26 @@ const fileMiddleware = require('../middleware/file')
 const db = require('../db')
 const router = Router()
 const sharp = require('sharp')
+const fs = require('fs')
 
-router.post('/upload', fileMiddleware.single('avatar'), (req, res) => {
+router.post('/upload', fileMiddleware.single('avatar'), async (req, res) => {
     try {
         if (req.file) {
             let type = req.file.filename.split('.').pop()
-            let file = req.file.filename;
-            let s = file.slice(0, -(type.length));
+            let f = req.file.filename;
+            let s = f.slice(0, -(type.length));
             type = 'webp';
             newFile = s + type;
-            sharp(req.file.path)
-            .rotate()
-            .toFormat('webp')
-            .toFile(req.file.destination + newFile)
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
-            res.json(req.file);
+            const ImgBuffer = await fs.promises.readFile(req.file.path);
+            const webpBuffer = await sharp(ImgBuffer).webp().toBuffer();
+            const webpPath = req.file.destination + newFile;
+            await fs.promises.writeFile(webpPath, webpBuffer);
+            await fs.promises.unlink(req.file.path);
+            res.type('image/webp');
+            //res.send(???) //doesn't work
             async function func(req, res) {
                 console.log(req.file.filename)
-                const toDb = await db.query(`INSERT INTO photos (path) values ($1)`, [req.file.filename])
+                const toDb = await db.query(`INSERT INTO photos (path) values ($1)`, [newFile])
                 res.json(toDb.filename);
             }
             func(req, res);
