@@ -2,14 +2,14 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, 'images/'); 
+        cb(null, 'videos/'); 
     },
     filename(req, file, cb) {
         cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
     }
 })
 
-const types = ['image/png', 'image/jpeg', 'image/jpg'];
+const types = ['video/mp4', 'video/mpeg', 'video/ogg'];
 
 const fileFilter = (req, file, cb) => {
     if (types.includes(file.mimetype)) {

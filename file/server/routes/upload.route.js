@@ -1,5 +1,6 @@
 const { Router } = require("express")
 const fileMiddleware = require('../middleware/file')
+const videoMiddleware = require('../middleware/video')
 const db = require('../db')
 const router = Router()
 const sharp = require('sharp')
@@ -30,8 +31,24 @@ router.post('/upload', fileMiddleware.single('avatar'), async (req, res) => {
                 size: webpBuffer.length,
             })
             async function func(req, res) {
-                console.log(req.file.newFile)
+                console.log(req.file)
                 const toDb = await db.query(`INSERT INTO photos (path) values ($1)`, [newFile])
+                res.json(toDb.newFile);
+            }
+            func(req, res);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+router.post('/uploadVideo', videoMiddleware.single('video'), async (req, res) => {
+    try {
+        if (req.file) {
+            res.json(req.file);
+            async function func(req, res) {
+                console.log(req.file)
+                const toDb = await db.query(`INSERT INTO videos (path) values ($1)`, [req.file.filename])
                 res.json(toDb.newFile);
             }
             func(req, res);
