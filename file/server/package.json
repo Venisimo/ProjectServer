@@ -10,10 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "child_process": "^1.0.2",
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.22",
     "pg": "^8.10.0",
+    "puppeteer": "^19.9.0",
     "sharp": "^0.32.0"
   }
 }
