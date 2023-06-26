@@ -54,7 +54,10 @@ function App() {
             <img src={logo} className="logo" alt="avatar" />
           )}
         </div>
-        <input type="file" onChange={e => setImg(e.target.files[0])} />
+        <input type="file" onChange={e => {
+          setImg(e.target.files[0]);
+          console.log(e.target.files[0]);
+          }} />
         <button className="btn" onClick={sendFile}>
           Изменить аватар
         </button>
